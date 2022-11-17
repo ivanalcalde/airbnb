@@ -1,0 +1,12 @@
+<h1>Properties</h1>
+
+<div :for={property <- @properties}>
+  <div>
+    <%= property.title %>
+    <%= link "Edit", to: Routes.property_path(@conn, :edit, property) %>
+  </div>
+</div>
+
+<div>
+  <%= link "Add new property", to: Routes.property_path(@conn, :new) %>
+</div>

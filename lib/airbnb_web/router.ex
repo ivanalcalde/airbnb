@@ -18,6 +18,12 @@ defmodule AirbnbWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    get  "/properties", PropertyController, :index
+    get  "/properties/new", PropertyController, :new
+    post "/properties", PropertyController, :create
+    get  "/properties/:id/edit", PropertyController, :edit
+    put  "/properties/:id", PropertyController, :update
   end
 
   # Other scopes may use custom stacks.
