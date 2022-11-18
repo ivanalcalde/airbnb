@@ -1,7 +1,23 @@
 <.form :let={f} for={@changeset} action={@action}>
   <label>
-    Title: <%= text_input f, :title %>
+    Title: <%= text_input(f, :title) %>
     <%= error_tag f, :title %>
+  </label>
+
+  <label>
+    Travellers: <%= select(f, :number_of_travellers, 1..20) %>
+  </label>
+
+  <label>
+    Bedrooms: <%= select(f, :number_of_bedrooms, 0..10) %>
+  </label>
+
+  <label>
+    Beds: <%= select(f, :number_of_beds, 0..20) %>
+  </label>
+
+  <label>
+    Bathrooms: <%= select(f, :number_of_bathrooms, 0..10) %>
   </label>
 
   <%= submit "Save" %>
