@@ -33,12 +33,20 @@ defmodule AirbnbWeb.PropertyController do
 
   def update(conn, %{"id" => id, "property" => property}) do
     case Properties.update_property(id, property) do
-      {:ok, _property}  ->
+      {:ok, _property} ->
         conn
         |> put_flash(:info, "🏠 Property updated")
         |> redirect(to: Routes.property_path(conn, :index))
       {:error, %{data: data} = changeset} -> 
         render(conn, "edit.html", changeset: changeset, property: data)
     end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    Properties.delete_property!(id)
+
+    conn
+    |> put_flash(:info, "🏠 Property removed")
+    |> redirect(to: Routes.property_path(conn, :index))
   end
 end

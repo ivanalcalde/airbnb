@@ -4,6 +4,7 @@
   <div>
     <%= property.title %>
     <%= link "Edit", to: Routes.property_path(@conn, :edit, property) %>
+    <%= link "Delete", to: Routes.property_path(@conn, :delete, property), method: :delete %>
   </div>
 </div>
 

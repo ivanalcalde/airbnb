@@ -24,4 +24,8 @@ defmodule Airbnb.Properties do
     |> property_changeset(params)
     |> Repo.update()
   end
+
+  def delete_property!(id) do
+    Repo.get!(Property, id) |> Repo.delete!()
+  end
 end
