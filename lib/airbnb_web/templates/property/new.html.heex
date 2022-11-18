@@ -1,11 +1,4 @@
 <h1>New Property</h1>
 
-<.form :let={f} for={@changeset} action={Routes.property_path(@conn, :create)}>
-  <label>
-    Title: <%= text_input f, :title %>
-    <%= error_tag f, :title %>
-  </label>
-
-  <%= submit "Save" %>
-</.form>
+<%= render("form.html", changeset: @changeset, action: Routes.property_path(@conn, :create)) %>
 

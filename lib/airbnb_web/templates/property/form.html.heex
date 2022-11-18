@@ -1,0 +1,8 @@
+<.form :let={f} for={@changeset} action={@action}>
+  <label>
+    Title: <%= text_input f, :title %>
+    <%= error_tag f, :title %>
+  </label>
+
+  <%= submit "Save" %>
+</.form>
