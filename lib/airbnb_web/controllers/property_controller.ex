@@ -13,6 +13,12 @@ defmodule AirbnbWeb.PropertyController do
     render(conn, "new.html", changeset: Properties.property_changeset())
   end
 
+  def show(conn, %{"id" => id}) do
+    property = Properties.get_property!(id)
+
+    render(conn, "show.html", property: property)
+  end
+
   def create(conn, %{"property" => property}) do
     case Properties.create_property(property) do
       {:ok, _property} ->

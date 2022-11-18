@@ -21,6 +21,7 @@ defmodule AirbnbWeb.Router do
 
     get  "/properties", PropertyController, :index
     get  "/properties/new", PropertyController, :new
+    get  "/properties/:id", PropertyController, :show
     post "/properties", PropertyController, :create
     get  "/properties/:id/edit", PropertyController, :edit
     put  "/properties/:id", PropertyController, :update

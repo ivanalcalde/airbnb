@@ -4,6 +4,8 @@ defmodule Airbnb.Properties do
 
   def get_properties(), do: Repo.all(Property)
 
+  def get_property!(id), do: Repo.get!(Property, id)
+
   def get_property(id), do: Repo.get(Property, id)
 
   def property_changeset(

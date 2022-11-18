@@ -2,7 +2,7 @@
 
 <div :for={property <- @properties}>
   <div>
-    <%= property.title %>
+    <%= link property.title, to: Routes.property_path(@conn, :show, property) %>
     <%= link "Edit", to: Routes.property_path(@conn, :edit, property) %>
     <%= link "Delete", to: Routes.property_path(@conn, :delete, property), method: :delete %>
   </div>
