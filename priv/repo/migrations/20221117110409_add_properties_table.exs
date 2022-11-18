@@ -3,11 +3,13 @@ defmodule Airbnb.Repo.Migrations.AddPropertiesTable do
 
   def change do
     create table(:property) do
-      add :bathrooms, :integer
-      add :bedrooms, :integer
-      add :beds, :integer
+      add :number_of_bathrooms, :integer
+      add :number_of_bedrooms, :integer
+      add :number_of_beds, :integer
+      add :number_of_travellers, :integer
       add :title, :string
-      add :travellers, :integer
+
+      timestamps()
     end
   end
 end
