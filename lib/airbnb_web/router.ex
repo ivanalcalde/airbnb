@@ -26,6 +26,8 @@ defmodule AirbnbWeb.Router do
     get  "/properties/:id/edit", PropertyController, :edit
     put  "/properties/:id", PropertyController, :update
     delete "/properties/:id", PropertyController, :delete
+
+    live "/properties/:id/photos", PropertyPhotosLive
   end
 
   # Other scopes may use custom stacks.

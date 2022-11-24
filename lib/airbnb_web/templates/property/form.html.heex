@@ -1,4 +1,4 @@
-<.form :let={f} for={@changeset} action={@action}>
+<.form :let={f} for={@changeset} action={@action} class="flex flex-col space-y-4">
   <label>
     Title: <%= text_input(f, :title) %>
     <%= error_tag f, :title %>
@@ -20,5 +20,5 @@
     Bathrooms: <%= select(f, :number_of_bathrooms, 0..10) %>
   </label>
 
-  <%= submit "Save" %>
+  <%= submit "Save", class: "button" %>
 </.form>
