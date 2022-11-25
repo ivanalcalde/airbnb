@@ -21,6 +21,7 @@
               <li><%= link "LiveDashboard", to: Routes.live_dashboard_path(@conn, :home), class: "button-red" %></li>
             <% end %>
             <li><%= link "Properties", to: Routes.property_path(@conn, :index), class: "button-red" %></li>
+            <li><%= link "Check In/Out", to: Routes.live_path(@conn, AirbnbWeb.PropertyCheckinLive), class: "button-red" %></li>
           </ul>
         </nav>
       </section>

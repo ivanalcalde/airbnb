@@ -73,8 +73,13 @@ defmodule AirbnbWeb.PropertyPhotosLive do
   def render(assigns) do
     ~H"""
     <div class="space-y-4">
-      <h1 class="text-4xl"><%= @property.title %></h1>
-      <h2 class="text-2xl">Property Photos</h2>
+      <h1 class="text-4xl"><%= @property.title %> - [Photos]</h1>
+      <AirbnbWeb.Components.features items={[
+        "LiveView",
+        "A LiveView spawns one process per client and uses web-sockets",
+        "Photo uploads directly from the client to AWS S3",
+        "Property Photo model management through LiveView actions (No MVC)"
+      ]} />
       <.form class="space-y-4" for={:property_photos} phx-change="validate" phx-submit="save">
 
         <div class="p-4 text-xs text-slate-500">

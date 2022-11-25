@@ -19,6 +19,9 @@ defmodule AirbnbWeb.Router do
 
     get "/", PageController, :index
 
+    live "/properties/:id/photos", PropertyPhotosLive
+    live "/properties/checkin", PropertyCheckinLive
+
     get  "/properties", PropertyController, :index
     get  "/properties/new", PropertyController, :new
     get  "/properties/:id", PropertyController, :show
@@ -26,8 +29,6 @@ defmodule AirbnbWeb.Router do
     get  "/properties/:id/edit", PropertyController, :edit
     put  "/properties/:id", PropertyController, :update
     delete "/properties/:id", PropertyController, :delete
-
-    live "/properties/:id/photos", PropertyPhotosLive
   end
 
   # Other scopes may use custom stacks.

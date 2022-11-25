@@ -5,6 +5,26 @@ defmodule Airbnb.Properties do
   alias Airbnb.PropertyPhoto
   alias Airbnb.Repo
 
+  @topic_properties "properties"
+
+  def subscribe_properties() do
+    Phoenix.PubSub.subscribe(Airbnb.PubSub, @topic_properties)
+  end
+
+  def broadcast_properties({:ok, property}, event) do
+    Phoenix.PubSub.broadcast(
+      Airbnb.PubSub,
+      @topic_properties,
+      {event, property}
+    )
+
+    {:ok, property}
+  end
+
+  def broadcast({:error, _reason} = error, _topic, _event) do
+    error
+  end
+
   def get_properties(), do: Repo.all(Property)
 
   def get_property!(id), do: Repo.get!(Property, id)
@@ -22,13 +42,25 @@ defmodule Airbnb.Properties do
     %Property{}
     |> property_changeset(params)
     |> Repo.insert()
+    |> broadcast_properties(:property_created)
   end
 
   def update_property(id, params) do
     get_property(id)
     |> property_changeset(params)
     |> Repo.update()
+    |> broadcast_properties(:property_updated)
   end
+
+  def update_property_toggle_checkin(id) do
+    property = get_property(id)
+
+    property
+    |> property_changeset(%{checked_in?: !property.checked_in?})
+    |> Repo.update()
+    |> broadcast_properties(:property_updated)
+  end
+
 
   def delete_property!(id) do
     Repo.get!(Property, id) |> Repo.delete!()
