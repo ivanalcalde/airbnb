@@ -21,7 +21,7 @@ defmodule Airbnb.Properties do
     {:ok, property}
   end
 
-  def broadcast({:error, _reason} = error, _topic, _event) do
+  def broadcast_properties({:error, _} = error, _event) do
     error
   end
 

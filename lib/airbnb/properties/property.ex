@@ -3,6 +3,8 @@ defmodule Airbnb.Property do
 
   schema "properties" do
     field :checked_in?, :boolean, default: false
+    field :lat, :float
+    field :lng, :float
     field :number_of_bathrooms, :integer
     field :number_of_bedrooms, :integer
     field :number_of_beds, :integer
@@ -17,6 +19,8 @@ defmodule Airbnb.Property do
     property
     |> Ecto.Changeset.cast(params, [
       :checked_in?,
+      :lat,
+      :lng,
       :number_of_bathrooms,
       :number_of_bedrooms,
       :number_of_beds,

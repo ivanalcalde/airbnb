@@ -20,6 +20,7 @@ defmodule AirbnbWeb.Router do
     get "/", PageController, :index
 
     live "/properties/:id/photos", PropertyPhotosLive
+    live "/properties/:id/map", PropertyMapLive
     live "/properties/checkin", PropertyCheckinLive
 
     get  "/properties", PropertyController, :index
