@@ -13,7 +13,13 @@ defmodule AirbnbWeb.PropertyMapLive do
       property: property
     )
 
-    {:ok, socket}
+    property_location? = Map.get(property, :lat) && Map.get(property, :lng)
+
+    if connected?(socket) && property_location? do
+      {:ok, socket |> update_location_event()}
+    else
+      {:ok, socket}
+    end
   end
 
   def render(assigns) do
@@ -28,17 +34,28 @@ defmodule AirbnbWeb.PropertyMapLive do
         phx-submit="save"
       >
         <label>
-          Latitude: <%= text_input(f, :lat, placeholder: "lat") %>      
+          Latitude: <%= text_input(f, :lat, placeholder: "lat", readonly: true, class: "readonly") %>      
           <%= error_tag f, :lat %>
         </label>
         <label>
-          Longitude: <%= text_input(f, :lng, placeholder: "lng") %>      
+          Longitude: <%= text_input(f, :lng, placeholder: "lng", readonly: true, class: "readonly") %>      
           <%= error_tag f, :lng %>
         </label>
-        <%= submit "Save", class: "button" %>
+        <%= submit "Save",
+          disabled: !lat_lng_changed(@changeset),
+          class: "button"
+        %>
       </.form>
       <div id="wrapper" phx-update="ignore">
-        <div class="h-[650px]" id="map" phx-hook="Map">
+        <div
+          class="h-[650px]"
+          id="map"
+          phx-hook="AdminPropertyMap"
+          data-mapcenter={Jason.encode!(%{
+            lat: @property.lat || 42.30,
+            lng: @property.lng || -1.97
+          })}
+        >
         </div>
       </div>
     </div>
@@ -55,19 +72,38 @@ defmodule AirbnbWeb.PropertyMapLive do
     socket
   ) do
     socket = case Properties.update_property(socket.assigns.property.id, %{lat: lat, lng: lng}) do
-      {:ok, property} -> assign(socket, :property, property)
+      {:ok, property} -> 
+        assign(socket, :property, property)
+        |> update_location_event()
       {:error, changeset} -> assign(socket, :changeset, changeset)
     end
 
     {:noreply, socket}
   end
 
+  def handle_event("set_coordinates", %{"lat" => lat, "lng" => lng}, socket) do
+    changeset = Properties.property_changeset(
+      socket.assigns.changeset.data,
+      %{lat: lat, lng: lng}
+    )
 
+    {:noreply, assign(socket, :changeset, changeset)}
+  end
 
+  defp update_location_event(socket) do
+    location = %{
+      id: socket.assigns.property.id,
+      description: socket.assigns.property.title,
+      lat: socket.assigns.property.lat,
+      lng: socket.assigns.property.lng
+    }
 
+    push_event(socket, "update_location", location)
+  end
 
+  defp lat_lng_changed(changeset) do
+    changes_keys = Map.keys(changeset.changes)
 
-
-
-
+    :lat in changes_keys or :lng in changes_keys    
+  end
 end

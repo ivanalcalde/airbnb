@@ -2,13 +2,32 @@ import Map from "./map";
 
 let Hooks = {};
 
-Hooks.Map = {
+Hooks.AdminPropertyMap = {
   mounted() {
-    this.map = new Map(this.el, [42.77, -0.35], (event) => {
+    const center = JSON.parse(this.el.dataset.mapcenter);
+
+    const markerOnClick = (event) => {
       // const locationId = event.target.options.locationId;
       // this.pushEvent("marker-clicked", locationId, (reply, ref) => {
       //   this.scrollTo(reply.location.id)
       // })
+    };
+
+    const mapOnClick = (event) => {
+      const { lat, lng } = event.latlng;
+
+      this.pushEvent("set_coordinates", { lat, lng });
+    };
+
+    this.map = new Map(this.el, center, {
+      mapOnClick,
+      markerOnClick,
+    });
+
+    this.handleEvent("update_location", location => {
+      this.map.removeAllMarkers();
+
+      this.map.addMarker(location);
     });
 
     // this.pushEvent("get-locations", {}, (reply, ref) => {
@@ -17,21 +36,15 @@ Hooks.Map = {
     //   })
     // })
 
-    // const locations = JSON.parse(this.el.dataset.locations);
+    // this.handleEvent("highlight-marker", (location) => {
+    //   this.map.highlightMarker(location);
+    // });
 
-    // incidents.forEach(incident => {
-    //   this.map.addMarker(incident);
-    // })
-
-    this.handleEvent("highlight-marker", (location) => {
-      this.map.highlightMarker(location);
-    });
-
-    this.handleEvent("add-marker", (location) => {
-      this.map.addMarker(location);
-      this.map.highlightMarker(location);
-      // this.scrollTo(location.id)
-    });
+    // this.handleEvent("add-marker", (location) => {
+    //   this.map.addMarker(location);
+    //   this.map.highlightMarker(location);
+    //   this.scrollTo(location.id)
+    // });
   },
 
   // scrollTo(locationId) {
